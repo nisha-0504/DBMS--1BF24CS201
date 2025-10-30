@@ -45,3 +45,8 @@ insert into loan values(4,'SBI_ParliamentRoad',4000);
 insert into loan values(5,'SBI_Jantarmantar',5000);
 select d.customer_name,b.branch_name from depositor d join bank_account b on d.acc_no=b.acc_no group by d.customer_name,b.branch_name having count(b.acc_no)>=2;
 select branch_name,(assets/100000) as assets_in_lakh from branch;
+select d.customer_name,b.branch_name from depositor d join bank_account b on d.acc_no=b.acc_no group by d.customer_name,b.branch_name having count(d.acc_no)>=2;
+create view Branch_loan_info AS SELECT branch_name,sum(amount) AS total_loan_amount FROM loan group by branch_name;
+Select * from Branch_loan_info;
+update bank_account set balance=balance*1.05;
+select b1.branch_name from branch b1 where b1.assets>all(select b2.assets from branch b2 where b2.branch_city="Bangalore");
