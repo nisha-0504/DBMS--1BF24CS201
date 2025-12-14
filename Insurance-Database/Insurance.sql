@@ -19,29 +19,35 @@ create table owns(driver_id varchar(10),reg_num varchar(10),primary key(driver_i
 desc owns;
 create table participated(driver_id varchar(10), reg_num varchar(10),report_num int, damage_amount int, primary key(driver_id, reg_num, report_num), foreign key(driver_id) references person(driver_id),
 foreign key(reg_num) references car(reg_num),foreign key(report_num) references accident(report_num));
+desc participated;
 insert into car(reg_num,model,year) values ("KA052250","INDICA","1990");
 insert into car(reg_num,model,year) values ("KA052567","HONDA","1995");
 insert into car(reg_num,model,year) values ("KA052678","AUDI","2014");
 insert into car(reg_num,model,year) values ("KA056667","TOYOTA","1998");
 insert into car(reg_num,model,year) values ("KA056697","LANCA","1957");
+select * from car;
 insert into accident values(111,'2005-01-03','Mysore Road');
 insert into accident values(112,'2014-12-03','Gundappa Road');
 insert into accident values(113,'2004-09-05','Hazaribagh Road');
 insert into accident values(114,'2005-10-06','SouthernCircle');
 insert into accident values(115,'2001-05-02','GANDHI bazar');
+select * from accident;
 insert into owns values("A1","KA052250");
 insert into owns values("A2","KA052567");
 insert into owns values("A3","KA052678");
 insert into owns values("A4","KA056667");
 insert into owns values("A5","KA056697");
+select * from owns;
 insert into PARTICIPATED values("A1","KA052250",111,10000);
 insert into PARTICIPATED values("A2","KA052567",112,50000);
 insert into PARTICIPATED values("A3","KA052678",113,25000);
 insert into PARTICIPATED values("A4","KA056667",114,3000);
 insert into PARTICIPATED values("A5","KA056697",115,5000);
+select * from participated;
 update participated set damage_amount = 25000 where reg_num="KA052250" and report_num=111;
 select * from participated;
 insert into accident values(116,'2002-03-15','Domlur');
+select * from accident;
 Select accident_date,location from accident;
 Select driver_id from participated where damage_amount>=25000;
 Select * from car order by year asc;
@@ -50,6 +56,19 @@ select count(distinct driver_id) from participated p,accident a where p.report_n
 select * from participated order by damage_amount desc;
 select avg(damage_amount)from participated;
 select max(damage_amount) from participated;
+SET SQL_SAFE_UPDATES = 0;
 
-DELETE FROM participated WHERE damage_amount < (SELECT avg_val FROM (SELECT AVG(damage_amount) AS avg_val FROM participated) AS temp);
+DELETE
+FROM participated
+WHERE damage_amount <
+(
+    SELECT avg_val
+    FROM
+    (
+        SELECT AVG(damage_amount) AS avg_val
+        FROM participated
+    ) AS temp
+);
+select * from participated;
+
 select distinct pe.name,pa.damage_amount  from participated pa,person pe where pa.driver_id=pe.driver_id and pa.damage_amount>(select avg(damage_amount)from participated);
