@@ -1,5 +1,5 @@
 SHOW DATABASES;
-create database insurance_;
+create database insurance;
 show databases;
 use insurance;
 create table person(driver_id varchar(10),name varchar(20),address varchar(30),primary key(driver_id));
