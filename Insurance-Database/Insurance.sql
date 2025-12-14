@@ -1,7 +1,7 @@
 SHOW DATABASES;
 create database insurance_;
 show databases;
-use insurance_;
+use insurance;
 create table person(driver_id varchar(10),name varchar(20),address varchar(30),primary key(driver_id));
 desc person;
 create table car(reg_num varchar(10),model varchar(10),year int,primary key(reg_num));
