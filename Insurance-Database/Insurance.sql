@@ -50,5 +50,6 @@ select count(distinct driver_id) from participated p,accident a where p.report_n
 select * from participated order by damage_amount desc;
 select avg(damage_amount)from participated;
 select max(damage_amount) from participated;
-delete from participated where damage_amount<(select avg(damage_amount) from participated);
+
+DELETE FROM participated WHERE damage_amount < (SELECT avg_val FROM (SELECT AVG(damage_amount) AS avg_val FROM participated) AS temp);
 select distinct pe.name,pa.damage_amount  from participated pa,person pe where pa.driver_id=pe.driver_id and pa.damage_amount>(select avg(damage_amount)from participated);
